@@ -1,0 +1,276 @@
+<!doctype html>
+<!DOCTYPE html>
+
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#123d35" name="theme-color"/>
+<title>Sekolah Pintar</title>
+<style>
+:root{
+ --ink:#183b32;--muted:#61766d;--green:#176b52;--green-dark:#105440;
+ --green-soft:#e8f5ee;--paper:#f4f8f5;--line:#dce8e0;--white:#fff;
+ --orange:#8a5415;--orangebg:#fff5e4;--red:#a43c3c;
+ --shadow:0 8px 28px rgba(22,61,46,.07);--radius:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:1px solid transparent;border-radius:12px;background:var(--green);color:#fff;padding:11px 16px;font-weight:750;transition:transform .15s ease,background .15s ease,box-shadow .15s ease}
+button:hover{background:var(--green-dark);box-shadow:0 4px 12px #123d351a}
+button:active{transform:translateY(1px)}
+button.secondary{background:#edf6f0;color:var(--green);border-color:#d9e9df}
+button.secondary:hover{background:#dcefe3}
+button.danger{background:#fff0f0;color:var(--red)}
+button:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #85c9a5;outline-offset:2px}
+header{position:relative;overflow:hidden;background:linear-gradient(125deg,#103b31 0%,#176b52 65%,#218361 100%);color:white;padding:22px 16px 30px}
+header:after{content:"";position:absolute;width:260px;height:260px;border:1px solid #ffffff20;border-radius:50%;right:-90px;top:-120px;box-shadow:0 0 0 35px #ffffff08,0 0 0 70px #ffffff06;pointer-events:none}
+header .inner,main{max-width:1100px;margin:auto;position:relative;z-index:1}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{display:grid;place-items:center;width:48px;height:48px;flex:0 0 48px;border-radius:16px;background:#ffffff1c;border:1px solid #ffffff2b;font-size:25px}
+.brand h1{font-size:21px;letter-spacing:-.4px;margin:0}
+.brand p{margin:2px 0 0;color:#d6e9e1;font-size:13px}
+.topline{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.hero{margin-top:25px;max-width:650px}
+.hero h2{font-size:clamp(27px,5vw,38px);letter-spacing:-.9px;line-height:1.12;margin:0 0 10px}
+.hero p{margin:0;color:#dcebe5;max-width:460px}
+main{padding:20px 14px 44px}
+.notice{display:flex;gap:10px;align-items:flex-start;padding:13px 15px;border:1px solid #f0dfbd;border-radius:14px;background:var(--orangebg);color:#714515;margin-bottom:16px;font-size:13px}
+.notice:before{content:"ⓘ";font-size:16px;font-weight:800;line-height:1.2}
+.authbox,.panel,.stat{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:19px;box-shadow:var(--shadow)}
+.authbox{max-width:480px;margin:20px auto}
+.authbox h2,.panel h2{margin:0 0 8px;font-size:19px;letter-spacing:-.25px}
+.panel>p.muted{margin:0 0 14px}
+.field{display:grid;gap:6px;margin:13px 0}
+.field label{font-size:13px;font-weight:750;color:#38574d}
+.field input,.field select,.field textarea{width:100%;border:1px solid #cddbd4;border-radius:12px;padding:12px 13px;background:#fff;color:var(--ink);min-width:0;min-height:45px}
+.field input::placeholder,.field textarea::placeholder{color:#93a29b}
+.field textarea{min-height:100px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#65a988}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row>*{flex:1;min-width:0}
+.hidden{display:none!important}
+.muted{color:var(--muted);font-size:13px}
+#appSection>.panel:first-child{padding:18px 19px}
+#userInfo{overflow-wrap:anywhere}
+#schoolSelect{max-width:100%}
+.tabs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;padding:5px 0 14px;margin:0 0 4px}
+.tabs button{min-width:0;white-space:normal;background:#e7efeb;color:#36564c;padding:10px 8px;border-radius:12px;font-size:12px;line-height:1.25;border:1px solid #dce8e0}
+.tabs button.active{background:var(--green);border-color:var(--green);color:white;box-shadow:0 4px 12px #176b5224}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0 18px}
+.stat{position:relative;overflow:hidden;padding:17px 18px}
+.stat:after{content:"";position:absolute;right:-17px;bottom:-30px;width:90px;height:90px;border-radius:50%;background:var(--green-soft)}
+.stat strong{font-size:27px;line-height:1.25;display:block;position:relative;z-index:1;overflow-wrap:anywhere}
+.stat span{color:var(--muted);font-size:13px;position:relative;z-index:1}
+.contentgrid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:14px;align-items:start}
+.panel{margin:0 0 14px;min-width:0}
+.list{display:grid;gap:10px}
+.item{border:1px solid var(--line);border-radius:14px;padding:13px 14px;overflow-wrap:anywhere;background:linear-gradient(180deg,#fff,#fcfefd)}
+.item strong{display:block;margin-bottom:5px;font-size:14px}
+.item p{margin:7px 0 0;color:#52665e;white-space:pre-wrap;font-size:13px}
+.pill{display:inline-block;border-radius:999px;padding:4px 9px;font-size:11px;font-weight:800;background:var(--green-soft);color:var(--green)}
+.pill.pending,.pill.draft{background:var(--orangebg);color:var(--orange)}
+.empty{padding:22px 16px;text-align:center;border:1px dashed #cddbd4;border-radius:14px;color:var(--muted);font-size:13px;background:#fbfdfb}
+.status{font-size:13px;margin:10px 0;padding:11px 13px;border-radius:12px;background:#eaf4ee;color:#205b45;border:1px solid #d5e9dc;overflow-wrap:anywhere}
+.status.error{background:#fff0f0;color:#9b3333;border-color:#f0d0d0}
+.footer{padding:20px;text-align:center;color:var(--muted);font-size:12px}
+hr{border:0;border-top:1px solid var(--line)}
+@media(max-width:850px){.tabs{grid-template-columns:repeat(3,minmax(0,1fr))}.contentgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+@media(max-width:600px){
+ header{padding:17px 15px 25px}
+ .brand h1{font-size:19px}.logo{width:43px;height:43px;flex-basis:43px}
+ .hero{margin-top:22px}.hero h2{font-size:29px}
+ main{padding:15px 12px 34px}
+ .authbox,.panel,.stat{border-radius:16px;padding:15px}
+ .contentgrid{grid-template-columns:1fr;gap:0}
+ .grid{gap:10px;margin:10px 0 15px}
+ .stat{padding:14px}.stat strong{font-size:24px}
+ .tabs{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;position:sticky;top:0;z-index:5;background:var(--paper);padding:8px 0 11px}
+ .tabs button{font-size:11px;padding:10px 5px;min-height:42px}
+ .row{gap:8px}
+ #appSection>.panel:first-child .row{align-items:flex-start}
+ #schoolSelect{min-width:0}
+ button{min-height:43px}
+}
+@media(max-width:360px){.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.hero h2{font-size:26px}.grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="inner">
+<div class="topline"><div class="brand"><div class="logo">📚</div><div><h1>Sekolah Pintar</h1><p>Materi belajar dan pendampingan keluarga</p></div></div><button class="secondary hidden" id="logoutBtn">Keluar</button></div>
+<div class="hero"><h2>Belajar lebih terarah,<br/>keluarga lebih terhubung.</h2><p>Ruang belajar digital untuk guru, murid, dan orang tua.</p></div>
+</div></header>
+<main>
+<div class="notice">Versi awal Sekolah Pintar. Gunakan data seperlunya dan jangan cantumkan informasi pribadi anak di materi atau pengumuman yang dapat dilihat banyak orang.</div>
+<section class="authbox" id="authSection">
+<h2 id="authTitle">Masuk ke Sekolah Pintar</h2><p class="muted">Masuk dengan email dan kata sandi. Pengguna baru dapat membuat akun, lalu bergabung ke sekolah melalui admin sekolah.</p>
+<div aria-live="polite" class="status hidden" id="authStatus" role="status"></div>
+<form id="authForm">
+<div class="field"><label for="email">Email</label><input autocomplete="email" id="email" placeholder="nama@email.com" required="" type="email"/></div>
+<div class="field"><label for="password">Kata sandi</label><input autocomplete="current-password" id="password" minlength="8" placeholder="Minimal 8 karakter" required="" type="password"/></div>
+<div class="field" id="nameField"><label for="fullName">Nama lengkap (untuk daftar)</label><input autocomplete="name" id="fullName" placeholder="Nama Anda"/></div>
+<button id="authSubmit" style="width:100%" type="submit">Masuk</button>
+</form>
+<p class="muted" style="margin-bottom:0">Belum punya akun? <button class="secondary" id="toggleAuth" type="button">Buat akun</button></p><p class="muted" style="margin-top:12px">Akun baru mungkin perlu konfirmasi melalui email sebelum bisa masuk.</p>
+</section>
+<section class="hidden" id="appSection">
+<div class="panel">
+<div class="row"><div><h2 style="margin-bottom:3px">Dashboard</h2><div class="muted" id="userInfo">Memuat akun…</div><p class="muted" style="margin:7px 0 0">Pilih menu di bawah untuk mengelola kegiatan belajar.</p></div><div class="field" style="min-width:190px;margin:0"><label for="schoolSelect">Sekolah aktif</label><select id="schoolSelect"><option value="">Pilih sekolah</option></select></div></div>
+<div aria-live="polite" class="status hidden" id="appStatus" role="status"></div>
+</div>
+<div class="grid">
+<div class="stat"><strong id="lessonCount">—</strong><span>Materi terlihat</span></div>
+<div class="stat"><strong id="membershipRole">—</strong><span>Peran di sekolah aktif</span></div>
+</div>
+<nav aria-label="Menu utama" class="tabs">
+<button class="active" data-tab="lessons">📘 Materi</button>
+<button data-tab="family">👨‍👩‍👧 Keluarga</button>
+<button data-tab="focus">🎯 Fokus</button>
+<button data-tab="reminders">⏰ Pengingat</button>
+<button data-tab="announcements">📢 Info sekolah</button>
+<button data-tab="members">🏫 Anggota</button>
+</nav>
+<section class="tabcontent" id="tab-lessons">
+<div class="contentgrid">
+<div class="panel"><h2>Materi ajar</h2><p class="muted">Materi yang diterbitkan bisa dibaca sesuai kebijakan akses. Draf hanya terlihat oleh pemilik dan admin.</p><div class="list" id="lessonList"><div class="empty">Memuat materi…</div></div></div>
+<div class="panel"><h2>Tambah materi</h2><p class="muted">Isi materi dengan jelas. Fitur simpan bergantung pada peran dan izin akun Anda.</p>
+<form id="lessonForm">
+<div class="field"><label for="lessonForm-title">Judul</label><input id="lessonForm-title" maxlength="180" name="title" required=""/></div>
+<div class="row"><div class="field"><label for="lessonForm-class-level">Kelas</label><input id="lessonForm-class-level" name="class_level" placeholder="Contoh: 5" required=""/></div><div class="field"><label for="lessonForm-semester">Semester</label><select id="lessonForm-semester" name="semester"><option value="1">1</option><option value="2">2</option></select></div></div>
+<div class="field"><label for="lessonForm-subject">Mata pelajaran</label><input id="lessonForm-subject" name="subject" required=""/></div>
+<div class="field"><label for="lessonForm-learning-objective">Tujuan pembelajaran</label><textarea id="lessonForm-learning-objective" name="learning_objective"></textarea></div>
+<div class="field"><label for="lessonForm-content">Isi materi</label><textarea id="lessonForm-content" name="content" placeholder="Tuliskan penjelasan, contoh, atau langkah kegiatan belajar…" required=""></textarea></div>
+<div class="field"><label for="lessonForm-status">Status</label><select id="lessonForm-status" name="status"><option value="draft">Draf</option><option value="published">Terbitkan</option></select></div>
+<button type="submit">Simpan materi</button>
+</form>
+</div>
+</div>
+</section>
+<section class="tabcontent hidden" id="tab-family">
+<div class="contentgrid">
+<div class="panel"><h2>Hubungan orang tua–murid</h2><p class="muted">Hubungan harus dibuat dan disetujui oleh admin sekolah sebelum fitur keluarga dapat digunakan.</p><div class="list" id="linkList"><div class="empty">Pilih sekolah untuk melihat hubungan.</div></div></div>
+<div class="panel"><h2>Ajukan hubungan keluarga</h2>
+<form id="linkForm">
+<div class="field"><label for="linkForm-student-user-id">ID akun murid (UUID)</label><input id="linkForm-student-user-id" name="student_user_id" placeholder="Contoh: 123e4567-e89b-12d3-a456-426614174000" required=""/></div><p class="muted">Catatan: fitur ini masih memerlukan ID akun murid. Mintalah ID kepada admin sekolah; jangan memasukkan kata sandi atau data pribadi lainnya.</p>
+<button type="submit">Kirim permintaan</button>
+</form>
+<p class="muted">Pastikan ID benar dan murid terdaftar di sekolah aktif. Permintaan tidak otomatis memberi akses sebelum disetujui admin.</p>
+</div>
+</div>
+</section>
+<section class="tabcontent hidden" id="tab-focus">
+<div class="contentgrid">
+<div class="panel"><h2>Jadwal fokus</h2><div class="list" id="focusList"><div class="empty">Pilih sekolah untuk melihat jadwal.</div></div></div>
+<div class="panel"><h2>Tambah jadwal fokus</h2>
+<form id="focusForm"><div class="field"><label for="focusForm-student-user-id">ID murid (kosongkan untuk akun sendiri)</label><input id="focusForm-student-user-id" name="student_user_id" placeholder="Kosongkan jika untuk akun sendiri"/></div><p class="muted">Untuk mengatur jadwal anak, masukkan ID akun murid yang diberikan admin sekolah.</p><div class="field"><label for="focusForm-title">Nama jadwal</label><input id="focusForm-title" name="title" placeholder="Contoh: Belajar malam" required=""/></div>
+<div class="row"><div class="field"><label for="focusForm-starts-at">Mulai</label><input id="focusForm-starts-at" name="starts_at" required="" type="time" value="19:00"/></div><div class="field"><label for="focusForm-ends-at">Selesai</label><input id="focusForm-ends-at" name="ends_at" required="" type="time" value="20:00"/></div></div>
+<div class="field"><label for="focusForm-weekdays">Hari (0=Minggu, 6=Sabtu)</label><input id="focusForm-weekdays" name="weekdays" required="" value="1,2,3,4,5"/></div><button type="submit">Simpan jadwal</button>
+</form>
+</div>
+</div>
+</section>
+<section class="tabcontent hidden" id="tab-reminders">
+<div class="contentgrid">
+<div class="panel"><h2>Pengingat</h2><div class="list" id="reminderList"><div class="empty">Pilih sekolah untuk melihat pengingat.</div></div></div>
+<div class="panel"><h2>Tambah pengingat</h2>
+<form id="reminderForm"><div class="field"><label for="reminderForm-user-id">ID murid (kosongkan untuk akun sendiri)</label><input id="reminderForm-user-id" name="user_id" placeholder="UUID murid bila orang tua mengatur pengingat"/></div><div class="field"><label for="reminderForm-title">Judul</label><input id="reminderForm-title" name="title" required=""/></div><div class="field"><label for="reminderForm-reminder-type">Jenis</label><select id="reminderForm-reminder-type" name="reminder_type"><option value="study">Belajar</option><option value="prayer">Ibadah</option><option value="break">Istirahat</option><option value="assignment">Tugas</option><option value="general">Umum</option></select></div><div class="field"><label for="reminderForm-body">Catatan</label><textarea id="reminderForm-body" name="body"></textarea></div><div class="field"><label for="reminderForm-scheduled-at">Waktu (opsional)</label><input id="reminderForm-scheduled-at" name="scheduled_at" type="datetime-local"/></div><div class="field"><label for="reminderForm-repeat-rule">Pengulangan</label><select id="reminderForm-repeat-rule" name="repeat_rule"><option value="none">Tidak berulang</option><option value="daily">Harian</option><option value="weekly">Mingguan</option></select></div><button type="submit">Simpan pengingat</button></form>
+</div>
+</div>
+</section>
+<section class="tabcontent hidden" id="tab-announcements">
+<div class="contentgrid">
+<div class="panel"><h2>Pengumuman</h2><div class="list" id="announcementList"><div class="empty">Pilih sekolah untuk melihat pengumuman.</div></div></div>
+<div class="panel"><h2>Buat pengumuman</h2><form id="announcementForm"><div class="field"><label for="announcementForm-title">Judul</label><input id="announcementForm-title" maxlength="200" name="title" required=""/></div><div class="field"><label for="announcementForm-audience">Ditujukan kepada</label><select id="announcementForm-audience" name="audience"><option value="all">Semua anggota</option><option value="parents">Orang tua</option><option value="students">Murid</option><option value="teachers">Guru</option></select></div><div class="field"><label for="announcementForm-body">Isi</label><textarea id="announcementForm-body" maxlength="10000" name="body" required=""></textarea></div><div class="field"><label for="announcementForm-status">Status</label><select id="announcementForm-status" name="status"><option value="draft">Draf</option><option value="published">Terbitkan</option></select></div><button type="submit">Simpan pengumuman</button></form></div>
+</div>
+</section>
+<section class="tabcontent hidden" id="tab-members">
+<div class="contentgrid">
+<div class="panel"><h2>Anggota sekolah</h2><p class="muted">Daftar lengkap hanya terlihat oleh admin sekolah. Pengguna biasa hanya melihat keanggotaannya sendiri.</p><div class="list" id="memberList"><div class="empty">Pilih sekolah untuk melihat anggota.</div></div></div>
+<div class="panel"><h2>Tambah anggota</h2><form id="memberForm"><div class="field"><label for="memberForm-user-id">ID akun pengguna (UUID)</label><input id="memberForm-user-id" name="user_id" placeholder="UUID pengguna" required=""/></div><div class="field"><label for="memberForm-member-role">Peran</label><select id="memberForm-member-role" name="member_role"><option value="teacher">Guru</option><option value="student">Murid</option><option value="parent">Orang tua</option><option value="school_admin">Admin sekolah</option></select></div><div class="field"><label for="memberForm-status">Status</label><select id="memberForm-status" name="status"><option value="active">Aktif</option><option value="pending">Menunggu</option></select></div><button type="submit">Tambahkan anggota</button></form>
+<hr style="border:0;border-top:1px solid var(--line);margin:18px 0"/><h2>Buat sekolah</h2><form id="schoolForm"><div class="field"><label for="schoolForm-name">Nama sekolah</label><input id="schoolForm-name" maxlength="160" minlength="2" name="name" placeholder="Contoh: SDN Harapan" required=""/></div><button type="submit">Buat sekolah</button></form></div>
+</div>
+</section>
+</section>
+<div class="footer">Sekolah Pintar · Versi awal · Dibangun dengan Supabase Auth, PostgreSQL, dan Row Level Security.</div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://tayaudmfjwhpswbplzkv.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_IiwTaW6zr97R8K1SDNhf7g_SfNWrXM5";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+let currentUser = null, currentProfile = null, activeSchool = "", memberships = [], isSignup = false;
+const $ = id => document.getElementById(id);
+function showStatus(id, msg, error=false){const el=$(id);el.textContent=msg;el.classList.remove('hidden','error');if(error)el.classList.add('error');}
+function clearStatus(id){$(id).classList.add('hidden');}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function formData(form){return Object.fromEntries(new FormData(form).entries());}
+function empty(text){return `<div class="empty">${esc(text)}</div>`;}
+function item(title,detail,tag=''){return `<div class="item"><strong>${esc(title)}</strong>${tag?`<span class="pill ${tag==='draft'||tag==='pending'?'pending':''}">${esc(tag)}</span>`:''}<p>${esc(detail||'')}</p></div>`;}
+function activeRole(){return memberships.find(m=>m.school_id===activeSchool&&m.user_id===currentUser?.id&&m.status==='active')?.member_role||'—';}
+function isStaff(){return ['school_admin','teacher'].includes(activeRole());}
+async function safeQuery(query){const {data,error}=await query;if(error)throw error;return data||[];}
+async function refresh(){
+ if(!currentUser)return;
+ const {data:profile,error:pe}=await db.from('profiles').select('id,full_name,role').eq('id',currentUser.id).maybeSingle();
+ if(pe) throw pe; currentProfile=profile;
+ $('userInfo').textContent=`${profile?.full_name||currentUser.email} · akun ${currentUser.id}`;
+ memberships=await safeQuery(db.from('school_memberships').select('school_id,user_id,member_role,status').eq('user_id',currentUser.id));
+ const {data:schoolRows,error:se}=await db.from('schools').select('id,name').order('created_at',{ascending:false});
+ if(se)throw se;
+ const allowedIds=[...new Set(memberships.filter(m=>m.status==='active').map(m=>m.school_id))];
+ const allowed=(schoolRows||[]).filter(s=>allowedIds.includes(s.id));
+ const sel=$('schoolSelect'), previous=activeSchool; sel.innerHTML='<option value="">Pilih sekolah</option>'+allowed.map(s=>`<option value="${esc(s.id)}">${esc(s.name)}</option>`).join('');
+ activeSchool=allowed.some(s=>s.id===previous)?previous:(allowed[0]?.id||'');sel.value=activeSchool;
+ $('membershipRole').textContent=activeRole();
+ await loadAll();
+}
+async function loadAll(){
+ if(!activeSchool){['lessonList','linkList','focusList','reminderList','announcementList','memberList'].forEach(id=>$(id).innerHTML=empty('Belum ada sekolah aktif. Buat sekolah atau minta admin menambahkan akun Anda.'));$('lessonCount').textContent='0';return;}
+ try{
+  const lessons=await safeQuery(db.from('lessons').select('id,title,class_level,semester,subject,learning_objective,content,status,created_by,created_at,school_id').or(`school_id.eq.${activeSchool},school_id.is.null`).order('created_at',{ascending:false}).limit(50));
+  $('lessonCount').textContent=lessons.length;
+  $('lessonList').innerHTML=lessons.length?lessons.map(l=>item(`${l.title} · Kelas ${l.class_level}`,`${l.subject} · Semester ${l.semester}\n${l.learning_objective||''}\n${l.content||''}`,l.status)).join(''):empty('Belum ada materi yang dapat dilihat.');
+  const links=await safeQuery(db.from('parent_student_links').select('parent_user_id,student_user_id,status,created_at').eq('school_id',activeSchool).order('created_at',{ascending:false}).limit(50));
+  $('linkList').innerHTML=links.length?links.map(l=>item(`Orang tua: ${l.parent_user_id}`,`Murid: ${l.student_user_id}`,l.status)).join(''):empty('Belum ada hubungan keluarga.');
+  const schedules=await safeQuery(db.from('focus_schedules').select('title,starts_at,ends_at,weekdays,enabled,student_user_id').eq('school_id',activeSchool).order('created_at',{ascending:false}).limit(50));
+  $('focusList').innerHTML=schedules.length?schedules.map(s=>item(s.title,`${s.starts_at}–${s.ends_at} · hari ${s.weekdays.join(', ')}\nMurid: ${s.student_user_id}`,s.enabled?'aktif':'nonaktif')).join(''):empty('Belum ada jadwal fokus.');
+  const reminders=await safeQuery(db.from('reminders').select('title,body,reminder_type,scheduled_at,repeat_rule,enabled').eq('school_id',activeSchool).order('created_at',{ascending:false}).limit(50));
+  $('reminderList').innerHTML=reminders.length?reminders.map(r=>item(r.title,`${r.reminder_type} · ${r.scheduled_at||'waktu belum ditentukan'} · ${r.repeat_rule}\n${r.body||''}`,r.enabled?'aktif':'nonaktif')).join(''):empty('Belum ada pengingat.');
+  const anns=await safeQuery(db.from('announcements').select('title,body,audience,status,published_at').eq('school_id',activeSchool).order('created_at',{ascending:false}).limit(50));
+  $('announcementList').innerHTML=anns.length?anns.map(a=>item(a.title,`${a.audience} · ${a.published_at||'belum diterbitkan'}\n${a.body}`,a.status)).join(''):empty('Belum ada pengumuman.');
+  const members=await safeQuery(db.from('school_memberships').select('user_id,member_role,status,created_at').eq('school_id',activeSchool).order('created_at',{ascending:false}).limit(100));
+  $('memberList').innerHTML=members.length?members.map(m=>item(m.user_id,m.member_role,m.status)).join(''):empty('Belum ada anggota yang dapat dilihat.');
+  $('membershipRole').textContent=activeRole();
+ }catch(e){showStatus('appStatus',friendly(e),true);}
+}
+function friendly(e){const msg=e?.message||String(e);if(/row-level security|permission denied/i.test(msg))return 'Akses ditolak oleh kebijakan keamanan. Periksa peran dan keanggotaan sekolah.';if(/duplicate key/i.test(msg))return 'Data sudah terdaftar. Periksa kembali anggota atau hubungan keluarga.';return msg;}
+async function submitInsert(form,table,build,successMsg){
+ const data=formData(form);
+ try{const row=build(data);const {error}=await db.from(table).insert(row);if(error)throw error;form.reset();showStatus('appStatus',successMsg);await refresh();}
+ catch(e){showStatus('appStatus',friendly(e),true);}
+}
+$('toggleAuth').onclick=()=>{isSignup=!isSignup;$('authTitle').textContent=isSignup?'Buat akun Sekolah Pintar':'Masuk ke Sekolah Pintar';$('authSubmit').textContent=isSignup?'Daftar':'Masuk';$('nameField').classList.toggle('hidden',!isSignup);$('password').autocomplete=isSignup?'new-password':'current-password';clearStatus('authStatus');};
+$('authForm').onsubmit=async e=>{e.preventDefault();const email=$('email').value.trim(),password=$('password').value,full_name=$('fullName').value.trim();$('authSubmit').disabled=true;
+ try{if(isSignup){const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name}}});if(error)throw error;if(data.session){showStatus('authStatus','Akun dibuat. Sedang membuka dashboard…');}else{showStatus('authStatus','Pendaftaran berhasil. Periksa email untuk konfirmasi, lalu masuk.');return;}}
+ else{const {error}=await db.auth.signInWithPassword({email,password});if(error)throw error;}
+ }catch(err){showStatus('authStatus',friendly(err),true);}finally{$('authSubmit').disabled=false;}
+};
+$('logoutBtn').onclick=async()=>{await db.auth.signOut();};
+db.auth.onAuthStateChange((_event,session)=>{setTimeout(async()=>{currentUser=session?.user||null;$('authSection').classList.toggle('hidden',!!currentUser);$('appSection').classList.toggle('hidden',!currentUser);$('logoutBtn').classList.toggle('hidden',!currentUser);if(currentUser){try{await refresh();}catch(e){showStatus('appStatus',friendly(e),true);}}},0);});
+$('schoolSelect').onchange=async e=>{activeSchool=e.target.value;try{await loadAll();}catch(err){showStatus('appStatus',friendly(err),true);}};
+document.querySelectorAll('[data-tab]').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b===btn));document.querySelectorAll('.tabcontent').forEach(s=>s.classList.toggle('hidden',s.id!==`tab-${btn.dataset.tab}`));});
+$('schoolForm').onsubmit=async e=>{e.preventDefault();try{const d=formData(e.target);const {data,error}=await db.from('schools').insert({name:d.name.trim(),created_by:currentUser.id}).select('id').single();if(error)throw error;activeSchool=data.id;e.target.reset();await refresh();$('schoolSelect').value=data.id;showStatus('appStatus','Sekolah dibuat. Akun ini menjadi admin sekolah.');}catch(err){showStatus('appStatus',friendly(err),true);}};
+$('memberForm').onsubmit=e=>{e.preventDefault();if(!activeSchool)return showStatus('appStatus','Pilih sekolah aktif terlebih dahulu.',true);submitInsert(e.target,'school_memberships',d=>({school_id:activeSchool,user_id:d.user_id.trim(),member_role:d.member_role,status:d.status,invited_by:currentUser.id}),'Keanggotaan berhasil ditambahkan.');};
+$('lessonForm').onsubmit=e=>{e.preventDefault();if(!activeSchool)return showStatus('appStatus','Pilih sekolah aktif terlebih dahulu.',true);submitInsert(e.target,'lessons',d=>({school_id:activeSchool,title:d.title,class_level:d.class_level,semester:Number(d.semester),subject:d.subject,learning_objective:d.learning_objective,content:d.content,status:d.status,created_by:currentUser.id}),'Materi berhasil disimpan.');};
+$('linkForm').onsubmit=e=>{e.preventDefault();if(!activeSchool)return showStatus('appStatus','Pilih sekolah aktif terlebih dahulu.',true);submitInsert(e.target,'parent_student_links',d=>({school_id:activeSchool,parent_user_id:currentUser.id,student_user_id:d.student_user_id.trim(),requested_by:currentUser.id,status:'pending'}),'Permintaan hubungan dikirim jika keanggotaan dan kebijakan mengizinkan.');};
+$('focusForm').onsubmit=e=>{e.preventDefault();if(!activeSchool)return showStatus('appStatus','Pilih sekolah aktif terlebih dahulu.',true);submitInsert(e.target,'focus_schedules',d=>({school_id:activeSchool,student_user_id:d.student_user_id.trim()||currentUser.id,title:d.title,starts_at:d.starts_at,ends_at:d.ends_at,weekdays:d.weekdays.split(',').map(x=>Number(x.trim())),created_by:currentUser.id}),'Jadwal fokus berhasil disimpan.');};
+$('reminderForm').onsubmit=e=>{e.preventDefault();if(!activeSchool)return showStatus('appStatus','Pilih sekolah aktif terlebih dahulu.',true);const f=e.target;submitInsert(f,'reminders',d=>({school_id:activeSchool,user_id:d.user_id.trim()||currentUser.id,created_by:currentUser.id,title:d.title,body:d.body,reminder_type:d.reminder_type,scheduled_at:d.scheduled_at?new Date(d.scheduled_at).toISOString():null,repeat_rule:d.repeat_rule}), 'Pengingat berhasil disimpan.');};
+$('announcementForm').onsubmit=e=>{e.preventDefault();if(!activeSchool)return showStatus('appStatus','Pilih sekolah aktif terlebih dahulu.',true);submitInsert(e.target,'announcements',d=>({school_id:activeSchool,author_id:currentUser.id,title:d.title,body:d.body,audience:d.audience,status:d.status,published_at:d.status==='published'?new Date().toISOString():null}),'Pengumuman berhasil disimpan.');};
+(async()=>{const {data:{session}}=await db.auth.getSession();if(session?.user){currentUser=session.user;$('authSection').classList.add('hidden');$('appSection').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');try{await refresh();}catch(e){showStatus('appStatus',friendly(e),true);}}})();
+</script>
+</body>
+</html>
