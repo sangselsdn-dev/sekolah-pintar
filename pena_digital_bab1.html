@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#176b55">
+<title>PENA DIGITAL — PAI Bab 1</title>
+<style>
+:root{--green:#176b55;--green2:#21856a;--mint:#e7f7ef;--ink:#172a25;--muted:#61736d;--paper:#f6faf7;--gold:#ffd166;--line:#dce9e2;--white:#fff;--red:#b84040}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--paper);color:var(--ink);font-size:16px;line-height:1.55}
+button{font:inherit;cursor:pointer;border:0;border-radius:14px;padding:12px 16px;font-weight:700;transition:transform .12s,opacity .12s}button:active{transform:scale(.98)}button:focus-visible,a:focus-visible{outline:3px solid #f3b62b;outline-offset:3px}
+.top{background:linear-gradient(125deg,#125642,#249674);color:white;padding:22px max(18px,calc((100vw - 1120px)/2));padding-bottom:28px}
+.topline{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:15px;background:#ffffff20;display:grid;place-items:center;font-size:27px}
+.brand{font-size:13px;letter-spacing:2px;font-weight:800;opacity:.9}.top h1{font-size:clamp(27px,5vw,44px);line-height:1.1;margin:17px 0 8px}.top p{max-width:680px;margin:0;color:#e6fff4}
+.pill{display:inline-block;margin-top:15px;padding:5px 10px;border-radius:99px;background:#ffffff20;font-size:13px;font-weight:700}
+.app{max-width:1120px;margin:auto;padding:18px;display:grid;grid-template-columns:245px minmax(0,1fr);gap:18px}
+nav,.panel,.stat{background:var(--white);border:1px solid var(--line);border-radius:20px;box-shadow:0 6px 20px #163f2b08}
+nav{padding:12px;align-self:start;position:sticky;top:12px}
+.navtitle{font-size:12px;color:var(--muted);font-weight:800;letter-spacing:1px;padding:10px 12px}
+.navbtn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:transparent;color:var(--ink);margin:3px 0}
+.navbtn.active{background:var(--mint);color:var(--green)}.navbtn .ico{font-size:20px;width:25px;text-align:center}
+.main{min-width:0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.stat{padding:13px 15px}.stat small{color:var(--muted);display:block}.stat strong{font-size:24px;color:var(--green)}
+.panel{padding:clamp(17px,3vw,28px);margin-bottom:16px}.panel h2{margin:0 0 8px;font-size:clamp(22px,3.4vw,30px);line-height:1.2}.panel h3{margin:20px 0 8px}.eyebrow{font-size:12px;font-weight:800;letter-spacing:1.2px;color:var(--green);text-transform:uppercase}
+.lead{font-size:18px;color:#3f5d52}.heroart{background:linear-gradient(120deg,#e5f8ec,#fff6d9);border-radius:18px;padding:18px;margin:16px 0;display:flex;gap:14px;align-items:center}.heroart .big{font-size:48px}.heroart p{margin:0}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.mini{border:1px solid var(--line);border-radius:16px;padding:16px;background:#fcfffd}.mini .emoji{font-size:27px}.mini h3{margin:6px 0;font-size:17px}.mini p{margin:0;color:var(--muted);font-size:14px}
+.callout{background:var(--mint);border-left:4px solid var(--green);border-radius:12px;padding:14px;margin:14px 0}
+.row{display:flex;flex-wrap:wrap;gap:9px;align-items:center}.primary{background:var(--green);color:white}.secondary{background:var(--mint);color:var(--green)}.soft{background:#f0f4f1;color:var(--ink)}.gold{background:var(--gold);color:#3b3215}
+.progress{height:9px;background:#e5eee8;border-radius:99px;overflow:hidden;margin:10px 0 16px}.progress span{display:block;height:100%;width:0;background:var(--green);transition:width .2s}
+.letterboard{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.letter{background:#f5fbf7;border:2px solid var(--line);border-radius:16px;padding:15px 8px;text-align:center}.letter .arabic{font-family:"Noto Naskh Arabic","Amiri","Traditional Arabic",serif;font-size:32px;direction:rtl;display:block;color:var(--green)}.letter small{display:block;color:var(--muted)}
+.quizq{border:1px solid var(--line);border-radius:16px;padding:16px;margin:14px 0}.quizq p{font-weight:750;margin:0 0 10px}.answers{display:grid;gap:8px}.answer{background:#f4f8f5;border:1px solid var(--line);text-align:left;color:var(--ink);font-weight:600}.answer.selected{border-color:var(--green);background:var(--mint)}.answer.correct{background:#e0f6e7;border-color:#27824c}.answer.wrong{background:#fff0ee;border-color:#c24b42}.feedback{font-size:14px;color:var(--muted);margin-top:9px;min-height:0}
+.gamebox{border:1px dashed #8cb9a3;background:#f7fcf8;padding:16px;border-radius:16px}.gameoptions{display:flex;flex-wrap:wrap;gap:8px}.gameoptions button{background:#fff;border:1px solid var(--line);color:var(--ink)}.gameoptions button.chosen{background:var(--green);color:#fff}.gameoptions button.done{background:#dff4e6;color:#155a3c;border-color:#6db88c}
+.hide{display:none!important}.foot{text-align:center;color:var(--muted);font-size:13px;padding:8px 16px 28px}.arabicblock{font-family:"Noto Naskh Arabic","Amiri","Traditional Arabic",serif;direction:rtl;text-align:right;font-size:clamp(25px,4vw,35px);line-height:2.1;background:#fbfcfa;padding:16px;border-radius:14px;border:1px solid var(--line)}
+@media(max-width:760px){.app{grid-template-columns:1fr;padding:12px}.top{padding:20px 18px 25px}nav{position:static;display:flex;overflow-x:auto;gap:5px;padding:8px;border-radius:15px}nav .navtitle{display:none}.navbtn{width:auto;white-space:nowrap;flex:0 0 auto;margin:0;padding:10px 12px}.navbtn .ico{width:auto}.navbtn span.label{font-size:13px}.stats{gap:7px}.stat{padding:10px}.stat strong{font-size:21px}.cards{grid-template-columns:1fr}.letterboard{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1100px){body{font-size:17px}.panel{padding:30px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+ <div class="topline"><div class="logo">✏️</div><div><div class="brand">PENA DIGITAL</div><div style="font-size:13px;opacity:.85">Belajar • Bermain • Bertumbuh</div></div></div>
+ <h1>PAI jadi seru! 🌟</h1>
+ <p>Belajar Pendidikan Agama Islam dengan aktivitas interaktif. Pilih materi, temukan pola huruf, lalu uji pemahamanmu.</p>
+ <span class="pill">BAB 1 · ASYIKNYA BELAJAR AL-QUR'AN</span>
+</header>
+<div class="app">
+<nav aria-label="Navigasi pembelajaran">
+ <div class="navtitle">MENU PEMBELAJARAN</div>
+ <button class="navbtn active" data-page="beranda"><span class="ico">🏠</span><span class="label">Beranda</span></button>
+ <button class="navbtn" data-page="materi"><span class="ico">📚</span><span class="label">Materi</span></button>
+ <button class="navbtn" data-page="huruf"><span class="ico">🔎</span><span class="label">Detektif Huruf</span></button>
+ <button class="navbtn" data-page="mad"><span class="ico">🎵</span><span class="label">Mad Thabi'i</span></button>
+ <button class="navbtn" data-page="surah"><span class="ico">🌙</span><span class="label">Al-Kautsar</span></button>
+ <button class="navbtn" data-page="kuis"><span class="ico">🧠</span><span class="label">Kuis</span></button>
+</nav>
+<main class="main">
+ <div class="stats">
+  <div class="stat"><small>⭐ Skor belajar</small><strong id="score">0</strong></div>
+  <div class="stat"><small>✅ Dijawab benar</small><strong id="correctCount">0</strong></div>
+  <div class="stat"><small>📘 Progres</small><strong id="progressText">0%</strong></div>
+ </div>
+ <section id="page-beranda" class="page">
+  <div class="panel">
+   <div class="eyebrow">Selamat datang, Sobat PENA!</div>
+   <h2>Petualangan huruf Al-Qur'an dimulai di sini.</h2>
+   <p class="lead">Pada bab ini, kita belajar huruf hijaiah bersambung, Mad Thabi'i, dan Surah Al-Kautsar.</p>
+   <div class="heroart"><div class="big">📖</div><p><strong>Misi hari ini</strong><br>Amati bentuk huruf, pahami panjang bacaan, lalu kenali pesan Surah Al-Kautsar.</p></div>
+   <div class="cards">
+    <div class="mini"><div class="emoji">🔤</div><h3>Huruf bersambung</h3><p>Kenali bentuk huruf ketika berada di awal, tengah, atau akhir kata.</p></div>
+    <div class="mini"><div class="emoji">🎶</div><h3>Mad Thabi'i</h3><p>Pelajari bacaan panjang asli yang dibaca dua harakat.</p></div>
+    <div class="mini"><div class="emoji">🌙</div><h3>Surah Al-Kautsar</h3><p>Kenali surah ke-108, yang terdiri atas tiga ayat.</p></div>
+    <div class="mini"><div class="emoji">🏆</div><h3>Tantangan akhir</h3><p>Jawab pertanyaan dan kumpulkan skor belajarmu.</p></div>
+   </div>
+   <div class="callout">💡 <strong>Tips:</strong> Baca dengan tenang, perhatikan bentuk huruf, dan ulangi materi jika masih ragu.</div>
+   <button class="primary" onclick="showPage('materi')">Mulai belajar →</button>
+  </div>
+  <div class="panel"><h2>Target pembelajaran</h2><ul><li>Mengenali huruf hijaiah bersambung dan bentuknya di awal, tengah, serta akhir kata.</li><li>Memahami aturan dasar Mad Thabi'i dengan panjang dua harakat.</li><li>Mengenal Surah Al-Kautsar dan pesan tentang salat serta berkurban.</li></ul></div>
+ </section>
+ <section id="page-materi" class="page hide">
+  <div class="panel"><div class="eyebrow">Materi 1</div><h2>Huruf hijaiah bersambung</h2><p>Huruf hijaiah berjumlah 28 huruf. Sebagian besar huruf dapat disambung dengan huruf sebelum dan sesudahnya. Bentuk huruf bisa berubah saat berada di awal, tengah, atau akhir kata. Karena itu, kita perlu mengamati posisi huruf ketika membaca dan menulis.</p>
+   <h3>Tujuan belajar</h3><ul><li>Membaca dan menulis huruf hijaiah bersambung dalam tiga kata atau lebih.</li><li>Membedakan perubahan bentuk huruf di awal, tengah, dan akhir kata.</li><li>Menemukan huruf khusus yang memutus sambungan ke huruf sesudahnya.</li></ul>
+   <div class="cards">
+    <div class="mini"><div class="emoji">➡️</div><h3>Awal kata</h3><p>Huruf berada di awal rangkaian tulisan dan dapat tersambung ke huruf sesudahnya.</p></div>
+    <div class="mini"><div class="emoji">↔️</div><h3>Tengah kata</h3><p>Huruf berada di antara huruf lain; bentuk sambungannya perlu diperhatikan.</p></div>
+    <div class="mini"><div class="emoji">⬅️</div><h3>Akhir kata</h3><p>Huruf berada di ujung rangkaian tulisan.</p></div>
+    <div class="mini"><div class="emoji">🧩</div><h3>Enam huruf khusus</h3><p>ا د ذ ر ز و tidak menyambung ke huruf yang datang sesudahnya.</p></div>
+   </div>
+   <div class="callout"><strong>Ingat enam huruf:</strong> Alif (ا), Dal (د), Dzal (ذ), Ra (ر), Zai (ز), dan Wau (و). Huruf-huruf ini dapat tersambung dengan huruf sebelumnya, tetapi tidak menyambung ke huruf sesudahnya.</div>
+   <h3>Strategi membaca kata bersambung</h3><ol><li>Amati kata dari kanan ke kiri.</li><li>Kenali huruf satu per satu berdasarkan bentuknya.</li><li>Perhatikan apakah ada alif, dal, dzal, ra, zai, atau wau yang memutus sambungan.</li><li>Baca kata secara utuh dan tulis kembali dengan rapi.</li></ol>
+   <div class="callout">✍️ <strong>Latihan bersama guru:</strong> pilih tiga kata dari buku PAI, tandai huruf di awal, tengah, dan akhir, lalu tulis ulang di buku latihan. Pastikan contoh kata mengikuti buku yang digunakan di kelas.</div>
+   <h3>Contoh nyata: dari huruf terpisah menjadi kata</h3>
+   <div class="cards">
+    <div class="mini"><div class="emoji">🧩</div><h3>Contoh 1: كَتَبَ</h3><p>Huruf terpisah: ك + ت + ب</p><p><strong>Dirangkai:</strong> كَتَبَ</p><p>Latihan: baca dari kanan ke kiri, lalu tulis ulang di buku.</p></div>
+    <div class="mini"><div class="emoji">🧩</div><h3>Contoh 2: نَصَرَ</h3><p>Huruf terpisah: ن + ص + ر</p><p><strong>Dirangkai:</strong> نَصَرَ</p><p>Perhatikan bentuk huruf ketika dirangkai menjadi satu kata.</p></div>
+   </div>
+   <div class="callout">🔍 <strong>Contoh huruf pemutus sambungan:</strong> pada kata بَابٌ, huruf alif (ا) tidak menyambung ke huruf setelahnya. Jadi bentuk tulisan setelah alif tampak terpisah dari sambungan sebelumnya.</div>
+   <h3>Amati bentuk huruf</h3><div class="letterboard">
+    <div class="letter"><span class="arabic">ا</span><strong>Alif</strong><small>tidak menyambung ke sesudahnya</small></div>
+    <div class="letter"><span class="arabic">د</span><strong>Dal</strong><small>tidak menyambung ke sesudahnya</small></div>
+    <div class="letter"><span class="arabic">ذ</span><strong>Dzal</strong><small>tidak menyambung ke sesudahnya</small></div>
+    <div class="letter"><span class="arabic">ر</span><strong>Ra</strong><small>tidak menyambung ke sesudahnya</small></div>
+    <div class="letter"><span class="arabic">ز</span><strong>Zai</strong><small>tidak menyambung ke sesudahnya</small></div>
+    <div class="letter"><span class="arabic">و</span><strong>Wau</strong><small>tidak menyambung ke sesudahnya</small></div>
+   </div>
+   <button class="primary" onclick="showPage('huruf')">Main Detektif Huruf →</button>
+  </div>
+ </section>
+ <section id="page-huruf" class="page hide">
+  <div class="panel"><div class="eyebrow">Permainan interaktif</div><h2>🔎 Detektif Huruf Bersambung</h2><p>Pilih huruf yang <strong>tidak menyambung ke huruf sesudahnya</strong>. Temukan keenam huruf untuk menyelesaikan misi.</p>
+   <div class="progress"><span id="gameProgress"></span></div><p id="gameStatus" aria-live="polite">Ditemukan 0 dari 6 huruf.</p>
+   <div class="gamebox"><div class="gameoptions" id="letterOptions"></div><p id="gameFeedback" aria-live="polite">Pilih salah satu huruf di bawah.</p></div>
+   <div class="row" style="margin-top:14px"><button class="secondary" onclick="resetGame()">Ulangi permainan</button><button class="soft" onclick="showPage('mad')">Lanjut Mad Thabi'i →</button></div>
+  </div>
+ </section>
+ <section id="page-mad" class="page hide">
+  <div class="panel"><div class="eyebrow">Materi 2</div><h2>🎵 Mad Thabi'i</h2><p class="lead">Mad Thabi'i adalah bacaan panjang asli yang dibaca sepanjang <strong>dua harakat</strong>.</p>
+   <div class="heroart"><div class="big">🎶</div><p><strong>Ingat panjangnya</strong><br>Dua harakat — jangan terlalu pendek dan jangan dipanjangkan melebihi ketentuan.</p></div>
+   <h3>Perhatikan saat membaca</h3><div class="cards">
+    <div class="mini"><div class="emoji">👀</div><h3>Amati huruf</h3><p>Perhatikan huruf dan tanda baca di sekitarnya.</p></div>
+    <div class="mini"><div class="emoji">⏱️</div><h3>Ukur bacaan</h3><p>Latih panjang bacaan dengan hitungan dua harakat sesuai bimbingan guru.</p></div>
+   </div>
+   <h3>Contoh bacaan Mad Thabi'i</h3><p>Perhatikan harakat dan huruf mad pada contoh berikut. Contoh ini untuk latihan awal; guru dapat menyimak cara membacanya.</p>
+   <div class="cards">
+    <div class="mini"><div class="emoji">َ ا</div><h3>Fathah + alif</h3><p>Contoh: قَالَ</p><p>Bunyi panjang pada bagian “qā” dibaca dua harakat.</p></div>
+    <div class="mini"><div class="emoji">ِ يْ</div><h3>Kasrah + ya</h3><p>Contoh: قِيلَ</p><p>Bunyi panjang pada bagian “qī” dibaca dua harakat.</p></div>
+    <div class="mini"><div class="emoji">ُ وْ</div><h3>Dhammah + wau</h3><p>Contoh: يَقُولُ</p><p>Bunyi panjang pada bagian “qū” dibaca dua harakat.</p></div>
+   </div>
+   <h3>Kapan Mad Thabi'i terjadi?</h3><p>Mad Thabi'i terjadi pada tiga keadaan berikut:</p>
+   <div class="cards">
+    <div class="mini"><div class="emoji">َ ا</div><h3>Fathah + alif</h3><p>Huruf berharakat fathah diikuti alif.</p></div>
+    <div class="mini"><div class="emoji">ِ يْ</div><h3>Kasrah + ya sukun</h3><p>Huruf berharakat kasrah diikuti ya sukun.</p></div>
+    <div class="mini"><div class="emoji">ُ وْ</div><h3>Dhammah + wau sukun</h3><p>Huruf berharakat dhammah diikuti wau sukun.</p></div>
+    <div class="mini"><div class="emoji">⏱️</div><h3>Panjang 2 harakat</h3><p>Baca dengan ukuran panjang yang tepat, sesuai contoh guru.</p></div>
+   </div>
+   <div class="callout">📌 Saat berlatih, jangan hanya menebak dari bentuk huruf. Perhatikan harakat dan huruf mad-nya. Gunakan contoh yang ada di buku PAI dan mintalah guru menyimak bacaanmu.</div>
+   <h3>Cek pemahaman cepat</h3><p>Jika huruf berharakat kasrah diikuti ya sukun, jenis bacaan mad apa yang perlu diperiksa?</p><div class="row"><button class="secondary" onclick="quickCheck(this,false)">Mad wajib muttasil</button><button class="secondary" onclick="quickCheck(this,true)">Mad Thabi'i</button><button class="secondary" onclick="quickCheck(this,false)">Ikhfa</button></div><p id="madQuickFeedback" class="feedback" aria-live="polite"></p>
+   <button class="primary" onclick="showPage('surah')">Kenali Surah Al-Kautsar →</button>
+  </div>
+ </section>
+ <section id="page-surah" class="page hide">
+  <div class="panel"><div class="eyebrow">Materi 3</div><h2>🌙 Surah Al-Kautsar</h2><p class="lead">Surah Al-Kautsar adalah surah ke-108 dalam Al-Qur'an, terdiri dari tiga ayat, dan termasuk surah Makkiyah.</p>
+   <div class="heroart"><div class="big">✨</div><p><strong>Arti nama: Al-Kautsar</strong><br>Berkaitan dengan karunia atau nikmat yang berlimpah.</p></div>
+   <h3>Contoh pesan dalam kehidupan sehari-hari</h3>
+   <div class="cards">
+    <div class="mini"><div class="emoji">🕌</div><h3>Menjalankan salat</h3><p>Contoh: berusaha menjaga salat lima waktu dan belajar melaksanakannya tepat waktu.</p></div>
+    <div class="mini"><div class="emoji">💚</div><h3>Bersyukur</h3><p>Contoh: mengucapkan “Alhamdulillah” saat mendapat kebaikan dan menggunakan nikmat untuk hal baik.</p></div>
+   </div>
+   <h3>Pesan yang dipelajari</h3><div class="cards">
+    <div class="mini"><div class="emoji">🤲</div><h3>Mendirikan salat</h3><p>Surah ini mengingatkan umat untuk melaksanakan salat sebagai bentuk ibadah kepada Allah Swt.</p></div>
+    <div class="mini"><div class="emoji">🐑</div><h3>Berkurban</h3><p>Surah ini juga memuat perintah berkurban sebagai bentuk ibadah.</p></div>
+   </div>
+   <h3>Fakta penting</h3><ul><li>Nama surah: Al-Kautsar.</li><li>Urutan dalam Al-Qur'an: surah ke-108.</li><li>Jumlah ayat: 3 ayat.</li><li>Tempat diturunkan menurut materi buku: Makkah (surah Makkiyah).</li><li>Pesan pokok: bersyukur atas nikmat Allah dengan mendirikan salat dan berkurban.</li></ul>
+   <h3>Bagaimana menunjukkan rasa syukur?</h3><ul><li>Mengucapkan <em>Alhamdulillah</em> ketika menerima nikmat.</li><li>Menjaga salat dan berusaha melaksanakannya tepat waktu.</li><li>Menggunakan nikmat untuk melakukan kebaikan.</li></ul>
+   <div class="callout">📖 Gunakan mushaf atau buku PAI yang digunakan di kelas untuk membaca teks Arab dan berlatih hafalan bersama guru. Tampilan prototipe ini tidak menggantikan mushaf.</div>
+   <h3>Refleksi diri</h3><p>Pilih pernyataan yang paling sesuai dengan keadaanmu hari ini:</p><div class="row"><button class="secondary" onclick="reflect('Saya sudah bisa dan siap membantu teman.')">😊 Sudah paham</button><button class="secondary" onclick="reflect('Saya paham, tetapi masih perlu latihan.')">🙂 Perlu sedikit latihan</button><button class="secondary" onclick="reflect('Saya akan bertanya kepada guru/orang tua.')">🙋 Perlu bantuan</button></div><p id="reflectionFeedback" class="feedback" aria-live="polite"></p>
+   <div class="callout"><strong>Latihan 1 menit:</strong> Sebutkan satu nikmat Allah yang kamu syukuri hari ini. Lalu jelaskan satu tindakan nyata untuk menjaga nikmat tersebut.</div>
+   <button class="primary" onclick="showPage('kuis')">Uji pemahaman →</button>
+  </div>
+ </section>
+ <section id="page-kuis" class="page hide">
+  <div class="panel"><div class="eyebrow">Tantangan akhir bab</div><h2>🧠 Kuis PENA DIGITAL</h2><p>Jawab pertanyaan berikut. Ada 10 pertanyaan. Setiap jawaban benar menambah 10 poin. Baca setiap pertanyaan dengan teliti.</p>
+   <div class="progress"><span id="quizProgress"></span></div><div id="quizArea"></div>
+   <div class="row"><button class="primary" id="checkBtn" onclick="checkQuiz()">Periksa jawaban</button><button class="secondary" onclick="resetQuiz()">Ulangi kuis</button></div>
+   <div id="quizResult" class="callout hide" aria-live="polite"></div>
+  </div>
+ </section>
+</main>
+</div>
+<footer class="foot">PENA DIGITAL · Prototipe pembelajaran PAI Bab 1 · Bisa dibuka offline setelah file tersimpan di perangkat.</footer>
+<script>
+const pages=['beranda','materi','huruf','mad','surah','kuis'];
+let score=0, correctTotal=0, visited=new Set(), gameFound=new Set(), quizAnswers={};
+function quickCheck(btn,ok){const p=document.getElementById('madQuickFeedback');p.textContent=ok?'Tepat! Kasrah yang diikuti ya sukun termasuk salah satu keadaan Mad Thabi’i.':'Belum tepat. Ingat tiga pasangan huruf dan harakat pada materi.';p.style.color=ok?'#176b55':'#b84040';}
+function reflect(msg){document.getElementById('reflectionFeedback').textContent=msg;}
+function updateStats(){document.getElementById('score').textContent=score;document.getElementById('correctCount').textContent=correctTotal;let pct=Math.round(visited.size/pages.length*100);document.getElementById('progressText').textContent=pct+'%';}
+function showPage(p){pages.forEach(x=>document.getElementById('page-'+x).classList.toggle('hide',x!==p));document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===p));visited.add(p);updateStats();window.scrollTo({top:document.querySelector('.top').offsetHeight,behavior:'smooth'});}
+document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+const letters=[['ا','Alif'],['د','Dal'],['ذ','Dzal'],['ر','Ra'],['ز','Zai'],['و','Wau'],['ب','Ba'],['ت','Ta'],['ج','Jim'],['س','Sin'],['م','Mim'],['ن','Nun']];
+function renderGame(){let el=document.getElementById('letterOptions');el.innerHTML='';letters.forEach(([a,n])=>{let b=document.createElement('button');b.textContent=a+' · '+n;b.setAttribute('aria-label',n);if(gameFound.has(a))b.classList.add('done');b.disabled=gameFound.has(a);b.onclick=()=>pickLetter(a,n);el.appendChild(b)});document.getElementById('gameStatus').textContent=`Ditemukan ${gameFound.size} dari 6 huruf.`;document.getElementById('gameProgress').style.width=(gameFound.size/6*100)+'%';}
+function pickLetter(a,n){if('ا د ذ ر ز و'.split(' ').includes(a)){gameFound.add(a);score+=10;correctTotal++;document.getElementById('gameFeedback').textContent=`Hebat! ${n} termasuk huruf yang tidak menyambung ke huruf sesudahnya. +10 poin.`;if(gameFound.size===6)document.getElementById('gameFeedback').textContent='Misi selesai! Kamu menemukan keenam huruf khusus. +10 poin untuk jawaban terakhir.';}else{document.getElementById('gameFeedback').textContent=`Coba lagi. ${n} bukan salah satu dari enam huruf khusus pada materi ini.`;}renderGame();updateStats();}
+function resetGame(){gameFound.clear();document.getElementById('gameFeedback').textContent='Permainan diulang. Temukan keenam huruf khusus!';renderGame();}
+renderGame();
+const questions=[
+ {q:'Berapa jumlah huruf hijaiah yang disebut dalam materi Bab 1?',opts:['26 huruf','27 huruf','28 huruf','30 huruf'],a:2,why:'Materi menyebut huruf hijaiah berjumlah 28 huruf.'},
+ {q:'Manakah kelompok enam huruf yang tidak menyambung ke huruf sesudahnya?',opts:['ا د ذ ر ز و','ب ت ث ج ح خ','س ش ص ض ط ظ','ع غ ف ق ك ل'],a:0,why:'Enam huruf tersebut adalah alif, dal, dzal, ra, zai, dan wau.'},
+ {q:'Bagaimana arah membaca tulisan Arab?',opts:['Dari kiri ke kanan','Dari kanan ke kiri','Dari atas ke bawah saja','Arah bebas'],a:1,why:'Tulisan Arab dibaca dari kanan ke kiri.'},
+ {q:'Berapa panjang bacaan Mad Thabi’i?',opts:['Satu harakat','Dua harakat','Empat harakat','Enam harakat'],a:1,why:'Mad Thabi’i dibaca sepanjang dua harakat.'},
+ {q:'Pasangan manakah yang termasuk keadaan Mad Thabi’i?',opts:['Fathah diikuti alif','Fathah diikuti dal','Kasrah diikuti mim berharakat','Dhammah diikuti ba berharakat'],a:0,why:'Salah satu keadaan Mad Thabi’i ialah fathah yang diikuti alif.'},
+ {q:'Huruf apa yang mengikuti kasrah pada salah satu keadaan Mad Thabi’i?',opts:['Alif','Ya sukun','Dal','Nun berharakat fathah'],a:1,why:'Kasrah yang diikuti ya sukun merupakan salah satu keadaan Mad Thabi’i.'},
+ {q:'Surah Al-Kautsar adalah surah ke berapa dalam Al-Qur’an?',opts:['108','110','112','114'],a:0,why:'Materi menyebut Surah Al-Kautsar sebagai surah ke-108.'},
+ {q:'Berapa jumlah ayat Surah Al-Kautsar?',opts:['2 ayat','3 ayat','5 ayat','7 ayat'],a:1,why:'Surah Al-Kautsar terdiri atas tiga ayat.'},
+ {q:'Menurut materi, apa pesan pokok Surah Al-Kautsar?',opts:['Salat dan berkurban','Belajar dan bekerja','Berbakti kepada orang tua saja','Menjaga kebersihan saja'],a:0,why:'Bab ini menekankan rasa syukur melalui salat dan berkurban.'},
+ {q:'Apa contoh perilaku bersyukur atas nikmat Allah?',opts:['Mengeluh ketika mendapat kebaikan','Mengucapkan Alhamdulillah','Menyia-nyiakan kesempatan berbuat baik','Mengabaikan salat'],a:1,why:'Materi mengajak siswa mengucapkan Alhamdulillah dan menjalankan ibadah sebagai wujud syukur.'}
+];
+function renderQuiz(){let area=document.getElementById('quizArea');area.innerHTML='';questions.forEach((q,i)=>{let box=document.createElement('div');box.className='quizq';let p=document.createElement('p');p.textContent=(i+1)+'. '+q.q;box.appendChild(p);let answers=document.createElement('div');answers.className='answers';q.opts.forEach((opt,j)=>{let b=document.createElement('button');b.className='answer';b.textContent=String.fromCharCode(65+j)+'. '+opt;if(quizAnswers[i]===j)b.classList.add('selected');b.onclick=()=>{quizAnswers[i]=j;renderQuiz();};answers.appendChild(b)});box.appendChild(answers);let fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;box.appendChild(fb);area.appendChild(box)});document.getElementById('quizProgress').style.width=(Object.keys(quizAnswers).length/questions.length*100)+'%';}
+function checkQuiz(){if(Object.keys(quizAnswers).length<questions.length){document.getElementById('quizResult').classList.remove('hide');document.getElementById('quizResult').textContent='Pilih satu jawaban untuk setiap pertanyaan sebelum memeriksa hasil.';return;}let right=0;questions.forEach((q,i)=>{let box=document.querySelectorAll('.quizq')[i];box.querySelectorAll('.answer').forEach((b,j)=>{b.disabled=true;if(j===q.a)b.classList.add('correct');else if(quizAnswers[i]===j)b.classList.add('wrong')});let fb=document.getElementById('fb'+i);fb.textContent=q.why;if(quizAnswers[i]===q.a)right++;});let gained=right*10;score+=gained;correctTotal+=right;let result=document.getElementById('quizResult');result.classList.remove('hide');result.textContent=`Hasilmu: ${right} dari ${questions.length} benar. Kamu mendapat ${gained} poin dari kuis ini. ${right===questions.length?'Luar biasa! Semua jawaban benar!':'Terus berlatih, lalu ulangi kuis untuk menguatkan pemahaman.'}`;document.getElementById('checkBtn').disabled=true;updateStats();}
+function resetQuiz(){quizAnswers={};document.getElementById('quizResult').classList.add('hide');document.getElementById('checkBtn').disabled=false;renderQuiz();}
+renderQuiz();
+</script>
+</body>
+</html>

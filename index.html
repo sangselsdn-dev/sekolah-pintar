@@ -57,7 +57,7 @@ main{padding:20px 14px 44px}
 #appSection>.panel:first-child{padding:18px 19px}
 #userInfo{overflow-wrap:anywhere}
 #schoolSelect{max-width:100%}
-.tabs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;padding:5px 0 14px;margin:0 0 4px}
+.tabs{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px;padding:5px 0 14px;margin:0 0 4px}
 .tabs button{min-width:0;white-space:normal;background:#e7efeb;color:#36564c;padding:10px 8px;border-radius:12px;font-size:12px;line-height:1.25;border:1px solid #dce8e0}
 .tabs button.active{background:var(--green);border-color:var(--green);color:white;box-shadow:0 4px 12px #176b5224}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0 18px}
@@ -137,6 +137,7 @@ hr{border:0;border-top:1px solid var(--line)}
 <button data-tab="reminders">⏰ Pengingat</button>
 <button data-tab="announcements">📢 Info sekolah</button>
 <button data-tab="members">🏫 Anggota</button>
+<button data-tab="pena">🎮 PENA DIGITAL</button>
 </nav>
 <section class="tabcontent" id="tab-lessons">
 <div class="contentgrid">
@@ -199,6 +200,15 @@ hr{border:0;border-top:1px solid var(--line)}
 <hr style="border:0;border-top:1px solid var(--line);margin:18px 0"/><h2>Buat sekolah</h2><form id="schoolForm"><div class="field"><label for="schoolForm-name">Nama sekolah</label><input id="schoolForm-name" maxlength="160" minlength="2" name="name" placeholder="Contoh: SDN Harapan" required=""/></div><button type="submit">Buat sekolah</button></form></div>
 </div>
 </section>
+</section>
+
+<section class="tabcontent hidden" id="tab-pena">
+<div class="panel">
+<h2>🎮 PENA DIGITAL — PAI Bab 1</h2>
+<p class="muted">Materi interaktif, latihan huruf hijaiyah, Mad Thabi’i, Surah Al-Kautsar, refleksi, dan kuis. Modul dibuka di dalam dashboard setelah pengguna masuk ke Sekolah Pintar.</p>
+<iframe title="PENA DIGITAL PAI Bab 1" src="pena_digital_bab1.html" sandbox="allow-scripts" loading="lazy" style="display:block;width:100%;height: min(1600px, 85vh);min-height:900px;border:1px solid var(--line);border-radius:14px;background:#fff"></iframe>
+<p class="muted">Catatan: nilai kuis pada prototipe ini belum disimpan ke Supabase. Jangan gunakan hasil kuis sebagai nilai resmi sebelum fitur penyimpanan dan kebijakan akses diuji.</p>
+</div>
 </section>
 <div class="footer">Sekolah Pintar · Versi awal · Dibangun dengan Supabase Auth, PostgreSQL, dan Row Level Security.</div>
 </main>
