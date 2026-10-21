@@ -148,6 +148,7 @@ hr{border:0;border-top:1px solid var(--line)}
 <div class="field"><label for="lessonForm-subject">Mata pelajaran</label><input id="lessonForm-subject" name="subject" required=""/></div>
 <div class="field"><label for="lessonForm-learning-objective">Tujuan pembelajaran</label><textarea id="lessonForm-learning-objective" name="learning_objective"></textarea></div>
 <div class="field"><label for="lessonForm-content">Isi materi</label><textarea id="lessonForm-content" name="content" placeholder="Tuliskan penjelasan, contoh, atau langkah kegiatan belajar…" required=""></textarea></div>
+<div class="field"><label for="lessonFiles">Lampiran (opsional)</label><input id="lessonFiles" name="files" type="file" multiple accept=".pdf,.png,.jpg,.jpeg,.webp,.gif,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt"/><small class="muted">PDF, gambar, Word, Excel, PowerPoint, atau TXT. Maksimal 50 MB per file.</small></div>
 <div class="field"><label for="lessonForm-status">Status</label><select id="lessonForm-status" name="status"><option value="draft">Draf</option><option value="published">Terbitkan</option></select></div>
 <button type="submit">Simpan materi</button>
 </form>
@@ -237,7 +238,20 @@ async function loadAll(){
  try{
   const lessons=await safeQuery(db.from('lessons').select('id,title,class_level,semester,subject,learning_objective,content,status,created_by,created_at,school_id').or(`school_id.eq.${activeSchool},school_id.is.null`).order('created_at',{ascending:false}).limit(50));
   $('lessonCount').textContent=lessons.length;
-  $('lessonList').innerHTML=lessons.length?lessons.map(l=>item(`${l.title} · Kelas ${l.class_level}`,`${l.subject} · Semester ${l.semester}\n${l.learning_objective||''}\n${l.content||''}`,l.status)).join(''):empty('Belum ada materi yang dapat dilihat.');
+  const lessonFiles=lessons.length?await safeQuery(db.from('lesson_files').select('id,lesson_id,file_name,mime_type,storage_path,storage_bucket').in('lesson_id',lessons.map(l=>l.id))):[];
+  const filesByLesson={};
+  for(const f of lessonFiles){
+   let url='';
+   if(f.storage_path && f.storage_bucket==='materi-pelajaran'){
+    const {data:signed}=await db.storage.from(f.storage_bucket).createSignedUrl(f.storage_path,3600);
+    url=signed?.signedUrl||'';
+   } else if(f.file_url){url=f.file_url;}
+   (filesByLesson[f.lesson_id] ||= []).push({name:f.file_name,url});
+  }
+  $('lessonList').innerHTML=lessons.length?lessons.map(l=>{
+   const attachments=(filesByLesson[l.id]||[]).map(f=>f.url?`<a href="${esc(f.url)}" target="_blank" rel="noopener">📎 ${esc(f.name)}</a>`:`<span>📎 ${esc(f.name)}</span>`).join('<br>');
+   return `<div class="item"><strong>${esc(l.title)} · Kelas ${esc(l.class_level)}</strong><span class="pill ${l.status==='draft'?'pending':''}">${esc(l.status)}</span><p>${esc(l.subject)} · Semester ${esc(l.semester)}\n${esc(l.learning_objective||'')}\n${esc(l.content||'')}</p>${attachments?`<div class="muted">Lampiran:<br>${attachments}</div>`:''}</div>`;
+  }).join(''):empty('Belum ada materi yang dapat dilihat.');
   const links=await safeQuery(db.from('parent_student_links').select('parent_user_id,student_user_id,status,created_at').eq('school_id',activeSchool).order('created_at',{ascending:false}).limit(50));
   $('linkList').innerHTML=links.length?links.map(l=>item(`Orang tua: ${l.parent_user_id}`,`Murid: ${l.student_user_id}`,l.status)).join(''):empty('Belum ada hubungan keluarga.');
   const schedules=await safeQuery(db.from('focus_schedules').select('title,starts_at,ends_at,weekdays,enabled,student_user_id').eq('school_id',activeSchool).order('created_at',{ascending:false}).limit(50));
@@ -272,7 +286,31 @@ $('schoolSelect').onchange=async e=>{activeSchool=e.target.value;try{await loadA
 document.querySelectorAll('[data-tab]').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b===btn));document.querySelectorAll('.tabcontent').forEach(s=>s.classList.toggle('hidden',s.id!==`tab-${btn.dataset.tab}`));});
 $('schoolForm').onsubmit=async e=>{e.preventDefault();try{const d=formData(e.target);const {data,error}=await db.from('schools').insert({name:d.name.trim(),created_by:currentUser.id}).select('id').single();if(error)throw error;activeSchool=data.id;e.target.reset();await refresh();$('schoolSelect').value=data.id;showStatus('appStatus','Sekolah dibuat. Akun ini menjadi admin sekolah.');}catch(err){showStatus('appStatus',friendly(err),true);}};
 $('memberForm').onsubmit=e=>{e.preventDefault();if(!activeSchool)return showStatus('appStatus','Pilih sekolah aktif terlebih dahulu.',true);submitInsert(e.target,'school_memberships',d=>({school_id:activeSchool,user_id:d.user_id.trim(),member_role:d.member_role,status:d.status,invited_by:currentUser.id}),'Keanggotaan berhasil ditambahkan.');};
-$('lessonForm').onsubmit=e=>{e.preventDefault();if(!activeSchool)return showStatus('appStatus','Pilih sekolah aktif terlebih dahulu.',true);submitInsert(e.target,'lessons',d=>({school_id:activeSchool,title:d.title,class_level:d.class_level,semester:Number(d.semester),subject:d.subject,learning_objective:d.learning_objective,content:d.content,status:d.status,created_by:currentUser.id}),'Materi berhasil disimpan.');};
+$('lessonForm').onsubmit=async e=>{
+ e.preventDefault();
+ if(!activeSchool)return showStatus('appStatus','Pilih sekolah aktif terlebih dahulu.',true);
+ if(!isStaff())return showStatus('appStatus','Hanya admin sekolah atau guru yang dapat menambahkan materi.',true);
+ const form=e.target, d=formData(form), files=Array.from($('lessonFiles').files||[]), submit=form.querySelector('button[type="submit"]');
+ const allowed=/\.(pdf|png|jpe?g|webp|gif|doc|docx|xls|xlsx|ppt|pptx|txt)$/i;
+ for(const file of files){if(!allowed.test(file.name)){return showStatus('appStatus',`Format file tidak didukung: ${file.name}`,true);}if(file.size>50*1024*1024){return showStatus('appStatus',`Ukuran file melebihi 50 MB: ${file.name}`,true);}}
+ submit.disabled=true;
+ const uploadedPaths=[];
+ try{
+  const {data:lesson,error}=await db.from('lessons').insert({school_id:activeSchool,title:d.title,class_level:d.class_level,semester:Number(d.semester),subject:d.subject,learning_objective:d.learning_objective,content:d.content,status:d.status,created_by:currentUser.id}).select('id').single();
+  if(error)throw error;
+  for(const file of files){
+   const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+   const path=`${currentUser.id}/${activeSchool}/${lesson.id}/${Date.now()}_${safeName}`;
+   const {error:uploadError}=await db.storage.from('materi-pelajaran').upload(path,file,{contentType:file.type||'application/octet-stream',upsert:false});
+   if(uploadError)throw uploadError;
+   uploadedPaths.push(path);
+   const {error:metaError}=await db.from('lesson_files').insert({lesson_id:lesson.id,file_name:file.name,mime_type:file.type||'application/octet-stream',uploaded_by:currentUser.id,storage_path:path,storage_bucket:'materi-pelajaran'});
+   if(metaError)throw metaError;
+  }
+  form.reset();showStatus('appStatus',files.length?`Materi dan ${files.length} lampiran berhasil disimpan.`:'Materi berhasil disimpan.');await refresh();
+ }catch(err){showStatus('appStatus',`Materi mungkin sudah tersimpan, tetapi proses lampiran gagal: ${friendly(err)} Periksa daftar materi sebelum mencoba ulang.`,true);await refresh().catch(()=>{});}
+ finally{submit.disabled=false;}
+};
 $('linkForm').onsubmit=e=>{e.preventDefault();if(!activeSchool)return showStatus('appStatus','Pilih sekolah aktif terlebih dahulu.',true);submitInsert(e.target,'parent_student_links',d=>({school_id:activeSchool,parent_user_id:currentUser.id,student_user_id:d.student_user_id.trim(),requested_by:currentUser.id,status:'pending'}),'Permintaan hubungan dikirim jika keanggotaan dan kebijakan mengizinkan.');};
 $('focusForm').onsubmit=e=>{e.preventDefault();if(!activeSchool)return showStatus('appStatus','Pilih sekolah aktif terlebih dahulu.',true);submitInsert(e.target,'focus_schedules',d=>({school_id:activeSchool,student_user_id:d.student_user_id.trim()||currentUser.id,title:d.title,starts_at:d.starts_at,ends_at:d.ends_at,weekdays:d.weekdays.split(',').map(x=>Number(x.trim())),created_by:currentUser.id}),'Jadwal fokus berhasil disimpan.');};
 $('reminderForm').onsubmit=e=>{e.preventDefault();if(!activeSchool)return showStatus('appStatus','Pilih sekolah aktif terlebih dahulu.',true);const f=e.target;submitInsert(f,'reminders',d=>({school_id:activeSchool,user_id:d.user_id.trim()||currentUser.id,created_by:currentUser.id,title:d.title,body:d.body,reminder_type:d.reminder_type,scheduled_at:d.scheduled_at?new Date(d.scheduled_at).toISOString():null,repeat_rule:d.repeat_rule}), 'Pengingat berhasil disimpan.');};
